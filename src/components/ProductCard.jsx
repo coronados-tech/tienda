@@ -2,16 +2,11 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Alert, Card, Button, Badge } from 'react-bootstrap';
 import { formatPrice } from '../data/products.js';
-import { useCart } from '../context/CartContext.jsx';
 import { DecoratedProductImage } from '../patterns/decorator/ProductDecorators.jsx';
 
 function ProductCard({ product }) {
-  const { cart, addToCart } = useCart();
   const [feedback, setFeedback] = useState(null);
-  const cartItem = cart.find((item) => item.id === product.id);
   const outOfStock = product.stock <= 0;
-  const maxStockReached = cartItem && cartItem.quantity >= product.stock;
-  const buttonDisabled = outOfStock || maxStockReached;
 
   useEffect(() => {
     if (!feedback) return undefined;
@@ -20,16 +15,7 @@ function ProductCard({ product }) {
   }, [feedback]);
 
   const handleAdd = () => {
-    const result = addToCart(product);
-
-    if (result.ok) {
-      setFeedback({ variant: 'success', text: 'Agregado al carrito correctamente.' });
-      return;
-    }
-
-    if (result.reason === 'max_stock') {
-      setFeedback({ variant: 'warning', text: 'No hay más stock disponible.' });
-    }
+    setFeedback({ variant: 'info', text: 'Carrito disponible próximamente.' });
   };
 
   return (
@@ -47,8 +33,6 @@ function ProductCard({ product }) {
         <p className="small text-secondary mb-3">
           {outOfStock ? (
             <span className="text-danger">No hay stock disponible</span>
-          ) : maxStockReached ? (
-            <span className="text-warning">Stock máximo en carrito</span>
           ) : (
             <>Stock: {product.stock} unidades</>
           )}
@@ -74,10 +58,10 @@ function ProductCard({ product }) {
             variant="accent"
             size="sm"
             className="flex-grow-1"
-            disabled={buttonDisabled}
+            disabled={outOfStock}
             onClick={handleAdd}
           >
-            {outOfStock ? 'Sin stock' : maxStockReached ? 'Sin stock' : 'Agregar'}
+            {outOfStock ? 'Sin stock' : 'Agregar'}
           </Button>
         </div>
       </Card.Body>

@@ -2,7 +2,6 @@ import { Link, useParams } from 'react-router-dom';
 import { Container, Row, Col, Button, Alert, Breadcrumb } from 'react-bootstrap';
 import { useState } from 'react';
 import { getProductById, formatPrice } from '../data/products.js';
-import { useCart } from '../context/CartContext.jsx';
 import { categoryToSlug } from '../utils/categories.js';
 import ProductTagBadge from '../components/ProductTagBadge.jsx';
 import ProductImageZoom from '../components/ProductImageZoom.jsx';
@@ -10,7 +9,6 @@ import ProductImageZoom from '../components/ProductImageZoom.jsx';
 function DetalleProducto() {
   const { id } = useParams();
   const product = getProductById(id);
-  const { addToCart } = useCart();
   const [message, setMessage] = useState(null);
 
   if (!product) {
@@ -30,14 +28,7 @@ function DetalleProducto() {
   const categorySlug = categoryToSlug(product.category);
 
   const handleAdd = () => {
-    const result = addToCart(product);
-
-    if (result.ok) {
-      setMessage({ variant: 'success', text: 'Producto agregado al carrito correctamente.' });
-    } else if (result.reason === 'max_stock') {
-      setMessage({ variant: 'warning', text: 'No hay más stock disponible de este producto.' });
-    }
-
+    setMessage({ variant: 'info', text: 'Carrito disponible próximamente.' });
     setTimeout(() => setMessage(null), 3000);
   };
 

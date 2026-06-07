@@ -1,67 +1,6 @@
 import { useState } from "react";
-import { Container, Row, Col, Card, Collapse, Badge } from "react-bootstrap";
-import rafaelFoto from "../assets/profile.images/rafael.png";
-import micaelaFoto from "../assets/profile.images/micaela.png";
-
-const integrantes = [
-  {
-    id: 1,
-    nombre: "Valentina",
-    apellido: "Coronado",
-    dni: "40.123.456",
-    foto: "https://i.pravatar.cc/200?img=47",
-
-    redes: [
-      { nombre: "LinkedIn", url: "https://linkedin.com" },
-      { nombre: "Instagram", url: "https://instagram.com" },
-      { nombre: "GitHub", url: "https://github.com" },
-    ],
-  },
-  {
-    id: 2,
-    nombre: "Matías",
-    apellido: "Ruiz",
-    dni: "41.234.567",
-    foto: "https://i.pravatar.cc/200?img=12",
-
-    redes: [
-      { nombre: "LinkedIn", url: "https://linkedin.com" },
-      { nombre: "Twitter/X", url: "https://twitter.com" },
-      { nombre: "GitHub", url: "https://github.com" },
-    ],
-  },
-  {
-    id: 3,
-    nombre: "Micaela Natalia",
-    apellido: "Signorello",
-    dni: "38.624.940",
-    foto: micaelaFoto,
-
-    redes: [
-      { 
-        nombre: "LinkedIn", 
-        url: "https://www.linkedin.com/in/micaela-signorello-a2128a29b/",
-      },
-      { nombre: "GitHub", url: "https://github.com/MicaelaSignorello" },
-    ],
-  },
-  {
-    id: 4,
-    nombre: "Rafael Alberto",
-    apellido: "Barberi Salcedo",
-    dni: "95.151.120",
-    foto: rafaelFoto,
-
-    redes: [
-      {
-        nombre: "LinkedIn",
-        url: "https://www.linkedin.com/in/rafael-barberi-informatica/",
-      },
-      { nombre: "GitHub", url: "https://github.com/RafaelBarberiS" },
-      { nombre: "Instagram", url: "https://www.instagram.com/raffa_beri/" },
-    ],
-  },
-];
+import { Container, Row, Col, Card, Collapse } from "react-bootstrap";
+import { integrantes } from "../data/integrantes.js";
 
 function CardIntegrante({ integrante }) {
   const [abierta, setAbierta] = useState(false);
@@ -86,7 +25,7 @@ function CardIntegrante({ integrante }) {
             height: 100,
             borderRadius: "50%",
             overflow: "hidden",
-            border: "3px solid var(--bs-primary, #0d6efd)",
+            border: "3px solid var(--tc-accent)",
             marginBottom: "0.75rem",
             flexShrink: 0,
           }}
@@ -94,7 +33,12 @@ function CardIntegrante({ integrante }) {
           <img
             src={integrante.foto}
             alt={`${integrante.nombre} ${integrante.apellido}`}
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: integrante.fotoPosicion ?? "center center",
+            }}
           />
         </div>
 
@@ -108,7 +52,7 @@ function CardIntegrante({ integrante }) {
 
         {/* Botón ver más / ver menos */}
         <button
-          className={`btn btn-sm w-100 ${abierta ? "btn-outline-secondary" : "btn-outline-primary"}`}
+          className={`btn btn-sm w-100 ${abierta ? "btn-outline-secondary" : "btn-outline-accent"}`}
           onClick={() => setAbierta(!abierta)}
           aria-expanded={abierta}
           style={{ borderRadius: "20px", transition: "all 0.2s ease" }}
