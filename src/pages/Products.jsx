@@ -1,32 +1,28 @@
-import { useMemo, useState, useEffect } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
-import { Row, Col, Form, InputGroup, Button, Card } from "react-bootstrap";
-import { products, categories, formatPrice } from "../data/products.js";
-/*import ProductCard from "../components/ProductCard.jsx";*/
-import PageLayout from "../components/layout/PageLayout.jsx";
-import { applyCatalog } from "../patterns/composite/applyCatalog.js";
-import {
-  categoryToSlug,
-  slugToCategory,
-  availableTags,
-} from "../utils/categories.js";
+import { useMemo, useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Row, Col, Form, InputGroup, Button } from 'react-bootstrap';
+import { products, categories } from '../data/products.js';
+import ProductCard from '../components/ProductCard.jsx';
+import PageLayout from '../components/layout/PageLayout.jsx';
+import { applyCatalog } from '../patterns/composite/applyCatalog.js';
+import { categoryToSlug, slugToCategory, availableTags } from '../utils/categories.js';
 
 function Productos() {
   const { categoriaSlug } = useParams();
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("Todas");
-  const [tag, setTag] = useState("Todas");
-  const [sort, setSort] = useState("default");
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('Todas');
+  const [tag, setTag] = useState('Todas');
+  const [sort, setSort] = useState('default');
   const [inStockOnly, setInStockOnly] = useState(false);
-  const [maxPrice, setMaxPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState('');
 
   useEffect(() => {
     if (categoriaSlug) {
       const matchedCategory = slugToCategory(categoriaSlug);
-      setCategory(matchedCategory ?? "Todas");
+      setCategory(matchedCategory ?? 'Todas');
     } else {
-      setCategory("Todas");
+      setCategory('Todas');
     }
   }, [categoriaSlug]);
 
@@ -40,31 +36,31 @@ function Productos() {
         inStockOnly,
         maxPrice,
       }),
-    [search, category, tag, sort, inStockOnly, maxPrice],
+    [search, category, tag, sort, inStockOnly, maxPrice]
   );
 
   const handleCategoryChange = (newCategory) => {
     setCategory(newCategory);
-    if (newCategory === "Todas") {
-      navigate("/productos");
+    if (newCategory === 'Todas') {
+      navigate('/productos');
     } else {
       navigate(`/productos/categoria/${categoryToSlug(newCategory)}`);
     }
   };
 
   const clearFilters = () => {
-    setSearch("");
-    setTag("Todas");
-    setSort("default");
+    setSearch('');
+    setTag('Todas');
+    setSort('default');
     setInStockOnly(false);
-    setMaxPrice("");
-    navigate("/productos");
+    setMaxPrice('');
+    navigate('/productos');
   };
 
   return (
     <PageLayout
       titulo="Catálogo de productos"
-      subtitulo={`${filteredProducts.length} producto${filteredProducts.length !== 1 ? "s" : ""} encontrado${filteredProducts.length !== 1 ? "s" : ""}`}
+      subtitulo={`${filteredProducts.length} producto${filteredProducts.length !== 1 ? 's' : ''} encontrado${filteredProducts.length !== 1 ? 's' : ''}`}
     >
       <Row>
         <Col lg={3} className="mb-4">
@@ -121,10 +117,7 @@ function Productos() {
 
             <Form.Group className="mb-3">
               <Form.Label>Ordenar por precio</Form.Label>
-              <Form.Select
-                value={sort}
-                onChange={(e) => setSort(e.target.value)}
-              >
+              <Form.Select value={sort} onChange={(e) => setSort(e.target.value)}>
                 <option value="default">Sin ordenar</option>
                 <option value="ascending">Menor a mayor</option>
                 <option value="descending">Mayor a menor</option>
@@ -140,11 +133,7 @@ function Productos() {
               className="mb-3"
             />
 
-            <Button
-              variant="outline-secondary"
-              size="sm"
-              onClick={clearFilters}
-            >
+            <Button variant="outline-secondary" size="sm" onClick={clearFilters}>
               Limpiar filtros
             </Button>
           </div>
@@ -160,28 +149,8 @@ function Productos() {
           ) : (
             <Row xs={1} sm={2} xl={3} className="g-4">
               {filteredProducts.map((product) => (
-                <Col key={product.id} xs={12} sm={6} lg={4} xl={3}>
-                  <Card className="bg-card h-100 product-card">
-                    <Card.Img
-                      variant="top"
-                      src={product.image}
-                      alt={product.name}
-                    />
-                    <Card.Body>
-                      <Card.Title className="h6">{product.name}</Card.Title>
-                      <Card.Text className="text-accent fw-bold">
-                        {formatPrice(product.price)}
-                      </Card.Text>
-                      <Button
-                        as={Link}
-                        to={`/producto/${product.id}`}
-                        variant="outline-accent"
-                        size="sm"
-                      >
-                        Ver detalle
-                      </Button>
-                    </Card.Body>
-                  </Card>
+                <Col key={product.id}>
+                  <ProductCard product={product} />
                 </Col>
               ))}
             </Row>

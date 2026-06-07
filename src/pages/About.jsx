@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Container, Row, Col, Card, Collapse, Badge } from "react-bootstrap";
 import rafaelFoto from "../assets/profile.images/rafael.png";
+import micaelaFoto from "../assets/profile.images/micaela.png";
 
 const integrantes = [
   {
@@ -31,15 +32,17 @@ const integrantes = [
   },
   {
     id: 3,
-    nombre: "Luciana",
-    apellido: "Fernández",
-    dni: "42.345.678",
-    foto: "https://i.pravatar.cc/200?img=32",
+    nombre: "Micaela Natalia",
+    apellido: "Signorello",
+    dni: "38.624.940",
+    foto: micaelaFoto,
 
     redes: [
-      { nombre: "Instagram", url: "https://instagram.com" },
-      { nombre: "Behance", url: "https://behance.net" },
-      { nombre: "LinkedIn", url: "https://linkedin.com" },
+      { 
+        nombre: "LinkedIn", 
+        url: "https://www.linkedin.com/in/micaela-signorello-a2128a29b/",
+      },
+      { nombre: "GitHub", url: "https://github.com/MicaelaSignorello" },
     ],
   },
   {

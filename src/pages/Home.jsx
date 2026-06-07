@@ -1,8 +1,12 @@
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import BannerSlider from '../components/BannerSlider.jsx';
+import { products } from '../data/products.js';
+import ProductCard from '../components/ProductCard.jsx';
 
 function Inicio() {
+  const featured = products.filter((p) => p.tag).slice(0, 4);
+
   return (
     <>
       <BannerSlider />
@@ -46,7 +50,27 @@ function Inicio() {
         </Container>
       </section>
 
-    
+      <section className="py-5">
+        <Container>
+          <div className="d-flex justify-content-between align-items-end mb-4">
+            <div>
+              <h2 className="h3 page-title mb-1">Productos destacados</h2>
+              <p className="text-secondary mb-0">Lo más buscado de nuestra tienda</p>
+            </div>
+            <Button as={Link} to="/productos" variant="outline-accent" size="sm">
+              Ver todos →
+            </Button>
+          </div>
+          <Row xs={1} sm={2} lg={4} className="g-4">
+            {featured.map((product) => (
+              <Col key={product.id}>
+                <ProductCard product={product} />
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </section>
+
       <section className="py-5 border-top border-secondary">
         <Container>
           <Row xs={1} md={3} className="g-4">
