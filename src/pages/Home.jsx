@@ -1,11 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import BannerSlider from '../components/BannerSlider.jsx';
-import { products } from '../data/products.js';
 
 function Inicio() {
-  const featured = products.filter((p) => p.tag).slice(0, 4);
-
   return (
     <>
       <BannerSlider />
