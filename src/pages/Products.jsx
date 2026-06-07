@@ -1,14 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  Row,
-  Col,
-  Form,
-  InputGroup,
-  Button,
-  Card,
-  Link,
-} from "react-bootstrap";
+import { useNavigate, useParams, Link } from "react-router-dom";
+import { Row, Col, Form, InputGroup, Button, Card } from "react-bootstrap";
 import { products, categories, formatPrice } from "../data/products.js";
 /*import ProductCard from "../components/ProductCard.jsx";*/
 import PageLayout from "../components/layout/PageLayout.jsx";
