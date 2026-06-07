@@ -9,8 +9,8 @@ import {
   Card,
   Link,
 } from "react-bootstrap";
-import { products, categories } from "../data/products.js";
-import ProductCard from "../components/ProductCard.jsx";
+import { products, categories, formatPrice } from "../data/products.js";
+/*import ProductCard from "../components/ProductCard.jsx";*/
 import PageLayout from "../components/layout/PageLayout.jsx";
 import { applyCatalog } from "../patterns/composite/applyCatalog.js";
 import {
