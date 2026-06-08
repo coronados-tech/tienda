@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Alert, Card, Button, Badge } from 'react-bootstrap';
 import { formatPrice } from '../data/products.js';
 import { DecoratedProductImage } from '../patterns/decorator/ProductDecorators.jsx';
+import { useCart } from '../context/CartContext.jsx';
 
 function ProductCard({ product }) {
   const [feedback, setFeedback] = useState(null);
@@ -14,8 +15,11 @@ function ProductCard({ product }) {
     return () => clearTimeout(timer);
   }, [feedback]);
 
+  const { addToCart } = useCart();
+
   const handleAdd = () => {
-    setFeedback({ variant: 'info', text: 'Carrito disponible próximamente.' });
+    addToCart(product);
+    setFeedback({ variant: 'success', text: '¡Producto agregado al carrito! 🛒' });
   };
 
   return (

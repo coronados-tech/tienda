@@ -1,7 +1,9 @@
 import { NavLink } from 'react-router-dom';
-import { Container, Nav, Navbar } from 'react-bootstrap';
+import { Container, Nav, Navbar, Badge } from 'react-bootstrap';
+import { useCart } from '../context/CartContext.jsx';
 
 function NavbarCoronados() {
+  const { cart } = useCart();
   const linkClass = ({ isActive }) => (isActive ? 'nav-link active' : 'nav-link');
 
   return (
@@ -27,6 +29,11 @@ function NavbarCoronados() {
             </Nav.Link>
             <Nav.Link as={NavLink} to="/carrito" className={linkClass}>
               🛒 Carrito
+              {cart.length > 0 && (
+                <Badge bg="danger" pill className="ms-2">
+                  {cart.reduce((total, item) => total + item.quantity, 0)}
+                </Badge>
+              )}
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
