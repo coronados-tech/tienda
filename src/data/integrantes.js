@@ -1,6 +1,7 @@
 import rafaelFoto from "../assets/profile.images/rafael.png";
 import micaelaFoto from "../assets/profile.images/micaela.png";
 import carlaFoto from "../assets/profile.images/carla.png";
+import celesteFoto from "../assets/profile.images/Celeste.jpeg";
 
 export const integrantes = [
     {
@@ -19,8 +20,8 @@ export const integrantes = [
         id: 2,
         nombre: "Malena Celeste",
         apellido: "Fernandez Mansilla",
-        dni: "41.234.567",
-        foto: "https://i.pravatar.cc/200?img=12",
+        dni: "34.101.003",
+        foto: celesteFoto,
         redes: [{ nombre: "GitHub", url: "https://github.com/CelesteFernandez" }],
     },
     {
