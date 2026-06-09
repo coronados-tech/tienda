@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { ejecutarValidacionCompra } from '../patterns/templateMethod/validacionCompra.js';
+import { ejecutarValidacionCompra } from '../utils/validacionCompra.js';
 
 const estadoInicial = {
   nombre: '',

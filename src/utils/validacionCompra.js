@@ -1,8 +1,3 @@
-/**
- * Patrón Template Method: define el esqueleto del flujo de validación.
- * Los pasos concretos (reglas por campo) se delegan a estrategias/hooks.
- */
-
 const reglasPorCampo = {
   nombre: (valor) => {
     if (!valor.trim()) return 'El nombre es obligatorio';
@@ -42,9 +37,6 @@ function validarReglasExtra(formData, reglasExtra = []) {
   }, {});
 }
 
-/**
- * Template Method: siempre ejecuta validar campos → reglas extra → consolidar.
- */
 export function ejecutarValidacionCompra(formData, opciones = {}) {
   const { reglasExtra = [], carritoVacio = false } = opciones;
 

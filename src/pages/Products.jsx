@@ -4,7 +4,7 @@ import { Row, Col, Form, InputGroup, Button } from 'react-bootstrap';
 import { products, categories } from '../data/products.js';
 import ProductCard from '../components/ProductCard.jsx';
 import PageLayout from '../components/layout/PageLayout.jsx';
-import { applyCatalog } from '../patterns/composite/applyCatalog.js';
+import { applyCatalog } from '../patterns/strategy/productFilters.js';
 import { categoryToSlug, slugToCategory, availableTags } from '../utils/categories.js';
 
 function Productos() {

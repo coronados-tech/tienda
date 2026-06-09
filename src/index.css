@@ -169,14 +169,14 @@ a {
   color: var(--tc-accent);
 }
 
-.badge-etiqueta {
+.badge-tag {
   font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
-.badge-categoria {
+.badge-category {
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.03em;
@@ -542,7 +542,7 @@ a {
   font-size: 0.9rem;
 }
 
-.sin-stock-overlay {
+.product-image-badge {
   position: absolute;
   top: 12px;
   left: 12px;

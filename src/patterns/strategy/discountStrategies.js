@@ -1,8 +1,3 @@
-/**
- * Strategy pattern: each discount rule is an interchangeable strategy.
- * Applicable strategies stack on the subtotal (their amounts add up).
- */
-
 export const BULK_DISCOUNT_THRESHOLD = 300_000;
 
 const discountStrategies = {

@@ -1,9 +1,5 @@
 import { Container } from 'react-bootstrap';
 
-/**
- * Patrón Composite (estructural en UI): compone título + contenido + secciones
- * en una misma plantilla reutilizable para las páginas internas.
- */
 function PageLayout({ titulo, subtitulo, children, fluid = false }) {
   const Wrapper = fluid ? 'div' : Container;
 

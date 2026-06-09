@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Alert, Card, Button, Badge } from 'react-bootstrap';
 import { formatPrice } from '../data/products.js';
 import { useCart } from '../context/CartContext.jsx';
-import { DecoratedProductImage } from '../patterns/decorator/ProductDecorators.jsx';
+import ProductImageFrame from './ProductImageFrame.jsx';
 import FavoriteButton from './FavoriteButton.jsx';
 import { useActionAnimation } from '../hooks/useActionAnimation.js';
 
@@ -37,12 +37,12 @@ function ProductCard({ product }) {
 
   return (
     <Card className="product-card h-100">
-      <DecoratedProductImage product={product}>
+      <ProductImageFrame product={product}>
         <Card.Img variant="top" src={product.image} alt={product.name} />
         <FavoriteButton productId={product.id} />
-      </DecoratedProductImage>
+      </ProductImageFrame>
       <Card.Body>
-        <Badge className="mb-2 badge-categoria">{product.category}</Badge>
+        <Badge className="mb-2 badge-category">{product.category}</Badge>
         <Card.Title className="h6">{product.name}</Card.Title>
         <Card.Text className="text-secondary small">{product.description}</Card.Text>
         <p className="price-tag mb-2">{formatPrice(product.price)}</p>

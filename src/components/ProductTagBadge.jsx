@@ -5,7 +5,7 @@ function ProductTagBadge({ tag, className = '' }) {
   if (!tag) return null;
 
   return (
-    <Badge bg={getTagVariant(tag)} className={`badge-etiqueta ${className}`.trim()}>
+    <Badge bg={getTagVariant(tag)} className={`badge-tag ${className}`.trim()}>
       {tag}
     </Badge>
   );

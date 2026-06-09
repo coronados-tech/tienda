@@ -66,9 +66,8 @@ Tienda online de componentes de PC desarrollada como Trabajo Práctico de **Cons
 | Patrón | Dónde se aplica |
 | --- | --- |
 | **Strategy** | Filtros y ordenamiento del catálogo (`src/patterns/strategy/productFilters.js`) y reglas de descuento del carrito (`src/patterns/strategy/discountStrategies.js`) |
-| **Composite** | Agrupación de filtros aplicados en conjunto (`src/patterns/composite/`) |
-| **Decorator** | Etiquetas visuales en tarjetas de producto — Nuevo, Oferta, sin stock (`src/patterns/decorator/`) |
-| **Template Method** | Flujo de validación del formulario de compra (`src/patterns/templateMethod/validacionCompra.js`) |
+| **Decorator** | Badges sobre la imagen del producto — Nuevo, Oferta, sin stock (`src/components/ProductImageFrame.jsx`) |
+| **Template Method** | Validación del formulario de compra (`src/utils/validacionCompra.js`) |
 | **Context API** | Estado global del carrito, favoritos y tema (`src/context/`) |
 
 ## Estructura del proyecto
@@ -80,7 +79,7 @@ src/
 ├── data/           # products.js, integrantes.js
 ├── hooks/          # useCoupon, useActionAnimation, useBumpOnIncrease
 ├── pages/          # Vistas por ruta (Home, Products, Cart, Checkout, PurchaseConfirmation, etc.)
-├── patterns/       # Strategy, Composite, Decorator, Template Method
+├── patterns/       # Strategy (filtros y descuentos)
 └── utils/          # Imágenes, categorías, etiquetas, compartir producto
 ```
 

@@ -1,8 +1,3 @@
-/**
- * Strategy pattern: each filter and sort option is an interchangeable strategy.
- * The catalog selects which strategies to apply based on UI state.
- */
-
 function escapeRegex(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
@@ -65,4 +60,17 @@ const sortStrategies = {
 
 export function getSortStrategy(sort) {
   return sortStrategies[sort] ?? sortStrategies.default;
+}
+
+export function applyCatalog(products, criteria) {
+  const { search, category, inStockOnly, maxPrice, tag, sort } = criteria;
+
+  const filtered = products
+    .filter(filterStrategies.text(search))
+    .filter(filterStrategies.category(category))
+    .filter(filterStrategies.stock(inStockOnly))
+    .filter(filterStrategies.maxPrice(maxPrice))
+    .filter(filterStrategies.tag(tag ?? 'Todas'));
+
+  return getSortStrategy(sort)(filtered);
 }
