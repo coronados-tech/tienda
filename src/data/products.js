@@ -1,4 +1,4 @@
-import { resolveProductImage } from '../utils/productImages.js';
+import { resolveProductImages } from '../utils/productImages.js';
 
 export const categories = [
   'Todas',
@@ -316,10 +316,15 @@ const baseProducts = [
   },
 ];
 
-export const products = baseProducts.map((product) => ({
-  ...product,
-  image: resolveProductImage(product.id),
-}));
+export const products = baseProducts.map((product) => {
+  const images = resolveProductImages(product.id);
+
+  return {
+    ...product,
+    images,
+    image: images[0],
+  };
+});
 
 export const formatPrice = (price) =>
   new Intl.NumberFormat('es-AR', {

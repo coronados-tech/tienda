@@ -1,7 +1,7 @@
 import rafaelFoto from "../assets/profile.images/rafael.png";
 import micaelaFoto from "../assets/profile.images/micaela.png";
 import carlaFoto from "../assets/profile.images/carla.png";
-import celesteFoto from "../assets/profile.images/Celeste.jpeg";
+import celesteFoto from "../assets/profile.images/celeste.jpeg";
 
 export const integrantes = [
     {

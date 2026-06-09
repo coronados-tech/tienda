@@ -1,49 +1,55 @@
-import { Carousel } from 'react-bootstrap';
+import { Carousel, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
 import { categoryToSlug } from '../utils/categories.js';
+import gpuBanner from '../assets/fotosProductos/NVIDIA GeForce RTX 4070 Super.png';
+import storageBanner from '../assets/fotosHome/Samsung 990 Pro 1TB NVMe.png';
+import monitorBanner from '../assets/fotosHome/ASUS ROG Swift 32 4K 144Hz.png';
 
 const slides = [
   {
-    img: 'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&h=500&fit=crop',
+    img: gpuBanner,
     titulo: 'Armá tu PC gamer',
     texto: 'Procesadores, GPUs y memorias de última generación.',
     categoria: 'Placas de video',
     cta: 'Ver placas de video',
   },
   {
-    img: 'https://images.unsplash.com/photo-1587202372775-e229f172b9df?w=1200&h=500&fit=crop',
+    img: storageBanner,
     titulo: 'Almacenamiento ultrarrápido',
     texto: 'SSDs NVMe para cargar juegos y apps al instante.',
     categoria: 'Almacenamiento',
     cta: 'Ver almacenamiento',
   },
   {
-    img: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=1200&h=500&fit=crop',
-    titulo: 'Periféricos pro',
-    texto: 'Teclados, mouse y monitores para competir al máximo.',
-    categoria: 'Periféricos',
-    cta: 'Ver periféricos',
+    img: monitorBanner,
+    titulo: 'Monitores de alto rendimiento',
+    texto: 'Pantallas 4K y 1440p para gaming y productividad.',
+    categoria: 'Monitores',
+    cta: 'Ver monitores',
   },
 ];
 
 function BannerSlider() {
   return (
     <Carousel className="banner-carousel" fade indicators pause="hover">
-      {slides.map((slide, index) => (
-        <Carousel.Item key={index}>
-          <img className="d-block w-100" src={slide.img} alt={slide.titulo} />
-          <Carousel.Caption>
-            <h2 className="fw-bold">{slide.titulo}</h2>
-            <p className="mb-3">{slide.texto}</p>
-            <Button
-              as={Link}
-              to={`/productos/categoria/${categoryToSlug(slide.categoria)}`}
-              variant="accent"
-            >
-              {slide.cta}
-            </Button>
-          </Carousel.Caption>
+      {slides.map((slide) => (
+        <Carousel.Item key={slide.titulo}>
+          <div className="banner-slide">
+            <div className="banner-slide-content">
+              <h2 className="fw-bold">{slide.titulo}</h2>
+              <p className="mb-4">{slide.texto}</p>
+              <Button
+                as={Link}
+                to={`/productos/categoria/${categoryToSlug(slide.categoria)}`}
+                variant="accent"
+              >
+                {slide.cta}
+              </Button>
+            </div>
+            <div className="banner-slide-media">
+              <img src={slide.img} alt={slide.titulo} />
+            </div>
+          </div>
         </Carousel.Item>
       ))}
     </Carousel>

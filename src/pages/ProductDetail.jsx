@@ -2,13 +2,15 @@ import { Link, useParams } from 'react-router-dom';
 import { Container, Row, Col, Button, Alert, Breadcrumb } from 'react-bootstrap';
 import { useState } from 'react';
 import { getProductById, formatPrice } from '../data/products.js';
+import { useCart } from '../context/CartContext.jsx';
 import { categoryToSlug } from '../utils/categories.js';
 import ProductTagBadge from '../components/ProductTagBadge.jsx';
-import ProductImageZoom from '../components/ProductImageZoom.jsx';
+import ProductImageGallery from '../components/ProductImageGallery.jsx';
 
 function DetalleProducto() {
   const { id } = useParams();
   const product = getProductById(id);
+  const { addToCart } = useCart();
   const [message, setMessage] = useState(null);
 
   if (!product) {
@@ -28,7 +30,14 @@ function DetalleProducto() {
   const categorySlug = categoryToSlug(product.category);
 
   const handleAdd = () => {
-    setMessage({ variant: 'info', text: 'Carrito disponible próximamente.' });
+    const result = addToCart(product);
+
+    if (result.ok) {
+      setMessage({ variant: 'success', text: 'Producto agregado al carrito correctamente.' });
+    } else if (result.reason === 'max_stock') {
+      setMessage({ variant: 'warning', text: 'No hay más stock disponible de este producto.' });
+    }
+
     setTimeout(() => setMessage(null), 3000);
   };
 
@@ -52,7 +61,10 @@ function DetalleProducto() {
 
       <Row className="g-4">
         <Col md={6}>
-          <ProductImageZoom src={product.image} alt={product.name} />
+          <ProductImageGallery images={product.images} alt={product.name} />
+          <p className="text-secondary small mt-2 mb-0">
+            * Las imágenes se exhiben con fines ilustrativos.
+          </p>
         </Col>
         <Col md={6}>
           <h1 className="h2 page-title mb-3">{product.name}</h1>
