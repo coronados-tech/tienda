@@ -6,6 +6,7 @@ import { useCart } from '../context/CartContext.jsx';
 import { categoryToSlug } from '../utils/categories.js';
 import ProductTagBadge from '../components/ProductTagBadge.jsx';
 import ProductImageGallery from '../components/ProductImageGallery.jsx';
+import ShareButtons from '../components/ShareButtons.jsx';
 
 function DetalleProducto() {
   const { id } = useParams();
@@ -110,6 +111,8 @@ function DetalleProducto() {
               Ir al carrito
             </Button>
           </div>
+
+          <ShareButtons product={product} />
 
           {outOfStock && (
             <Alert variant="danger" className="border-0 py-2 mb-3">

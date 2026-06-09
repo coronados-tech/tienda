@@ -168,6 +168,12 @@ a {
   color: var(--tc-dark);
 }
 
+.share-buttons .share-btn {
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
 .navbar-coronados {
   background: rgba(10, 14, 23, 0.95) !important;
   backdrop-filter: blur(10px);
