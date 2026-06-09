@@ -8,6 +8,9 @@ import DetalleProducto from './pages/ProductDetail.jsx';
 import Contacto from "./pages/Contact.jsx";
 import Nosotros from "./pages/About.jsx";
 import Carrito from './pages/Cart.jsx';
+import Checkout from './pages/Checkout.jsx';
+import PurchaseConfirmation from './pages/PurchaseConfirmation.jsx';
+import Favoritos from './pages/Favorites.jsx';
 
 function App() {
   return (
@@ -26,6 +29,9 @@ function App() {
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/nosotros" element={<Nosotros />} />
           <Route path="/carrito" element={<Carrito />} />
+          <Route path="/carrito/finalizar" element={<Checkout />} />
+          <Route path="/carrito/confirmacion" element={<PurchaseConfirmation />} />
+          <Route path="/favoritos" element={<Favoritos />} />
         </Routes>
       </main>
       <Footer />

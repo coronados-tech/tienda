@@ -1,6 +1,6 @@
 import { formatPrice } from '../data/products.js';
 
-export function getProductPageUrl(product) {
+function getProductPageUrl(product) {
   const path = `/producto/${product.id}`;
   if (typeof window !== 'undefined') {
     return `${window.location.origin}${path}`;

@@ -57,7 +57,7 @@ export const filterStrategies = {
       tag === 'Todas' || product.tag === tag,
 };
 
-export const sortStrategies = {
+const sortStrategies = {
   default: (list) => list,
   ascending: (list) => [...list].sort((a, b) => a.price - b.price),
   descending: (list) => [...list].sort((a, b) => b.price - a.price),

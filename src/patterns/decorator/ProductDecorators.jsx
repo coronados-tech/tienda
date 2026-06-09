@@ -5,7 +5,7 @@ import ProductTagBadge from '../../components/ProductTagBadge.jsx';
  * Decorator pattern: wraps content and adds visual behavior
  * (badges) without modifying the base ProductCard component.
  */
-export function PromoTagDecorator({ product, children }) {
+function PromoTagDecorator({ product, children }) {
   if (!product.tag) return children;
 
   return (
@@ -16,7 +16,7 @@ export function PromoTagDecorator({ product, children }) {
   );
 }
 
-export function OutOfStockDecorator({ product, children }) {
+function OutOfStockDecorator({ product, children }) {
   if (product.stock > 0) return children;
 
   return (

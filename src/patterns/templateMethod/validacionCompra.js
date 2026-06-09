@@ -4,8 +4,16 @@
  */
 
 const reglasPorCampo = {
-  nombre: (valor) => (!valor.trim() ? 'El nombre es obligatorio' : null),
-  apellido: (valor) => (!valor.trim() ? 'El apellido es obligatorio' : null),
+  nombre: (valor) => {
+    if (!valor.trim()) return 'El nombre es obligatorio';
+    if (valor.trim().length < 3) return 'El nombre debe tener al menos 3 caracteres';
+    return null;
+  },
+  apellido: (valor) => {
+    if (!valor.trim()) return 'El apellido es obligatorio';
+    if (valor.trim().length < 3) return 'El apellido debe tener al menos 3 caracteres';
+    return null;
+  },
   email: (valor) => {
     if (!valor.trim()) return 'El email es obligatorio';
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor)) return 'Ingresá un email válido';

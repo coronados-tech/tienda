@@ -3,16 +3,19 @@ import { Container, Row, Col, Button, Alert, Breadcrumb } from 'react-bootstrap'
 import { useState } from 'react';
 import { getProductById, formatPrice } from '../data/products.js';
 import { useCart } from '../context/CartContext.jsx';
+import { useActionAnimation } from '../hooks/useActionAnimation.js';
 import { categoryToSlug } from '../utils/categories.js';
 import ProductTagBadge from '../components/ProductTagBadge.jsx';
 import ProductImageGallery from '../components/ProductImageGallery.jsx';
 import ShareButtons from '../components/ShareButtons.jsx';
+import FavoriteButton from '../components/FavoriteButton.jsx';
 
 function DetalleProducto() {
   const { id } = useParams();
   const product = getProductById(id);
   const { addToCart } = useCart();
   const [message, setMessage] = useState(null);
+  const { active: cartJustAdded, trigger: triggerCartAdded } = useActionAnimation(1000);
 
   if (!product) {
     return (
@@ -34,12 +37,14 @@ function DetalleProducto() {
     const result = addToCart(product);
 
     if (result.ok) {
-      setMessage({ variant: 'success', text: 'Producto agregado al carrito correctamente.' });
-    } else if (result.reason === 'max_stock') {
-      setMessage({ variant: 'warning', text: 'No hay más stock disponible de este producto.' });
+      triggerCartAdded();
+      return;
     }
 
-    setTimeout(() => setMessage(null), 3000);
+    if (result.reason === 'max_stock') {
+      setMessage({ variant: 'warning', text: 'No hay más stock disponible de este producto.' });
+      setTimeout(() => setMessage(null), 3000);
+    }
   };
 
   return (
@@ -104,12 +109,23 @@ function DetalleProducto() {
           </div>
 
           <div className="d-flex gap-2 flex-wrap mb-3">
-            <Button variant="accent" size="lg" disabled={outOfStock} onClick={handleAdd}>
-              {outOfStock ? 'Sin stock disponible' : 'Agregar al carrito'}
+            <Button
+              variant="accent"
+              size="lg"
+              className={cartJustAdded ? 'cart-btn-just-added' : undefined}
+              disabled={outOfStock}
+              onClick={handleAdd}
+            >
+              {cartJustAdded
+                ? '✓ Agregado al carrito'
+                : outOfStock
+                  ? 'Sin stock disponible'
+                  : 'Agregar al carrito'}
             </Button>
             <Button as={Link} to="/carrito" variant="outline-accent" size="lg">
               Ir al carrito
             </Button>
+            <FavoriteButton productId={product.id} variant="button" size="lg" />
           </div>
 
           <ShareButtons product={product} />

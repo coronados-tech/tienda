@@ -14,6 +14,11 @@ function validarFormulario(formData) {
 
   if (!formData.nombre.trim()) {
     errores.nombre = 'El nombre es obligatorio';
+  } else if (formData.nombre.trim().length < 3) {
+    errores.nombre = 'El nombre debe tener al menos 3 caracteres';
+  }
+  if (formData.apellido.trim() && formData.apellido.trim().length < 3) {
+    errores.apellido = 'El apellido debe tener al menos 3 caracteres';
   }
   if (!formData.email.trim()) {
     errores.email = 'El email es obligatorio';
@@ -35,7 +40,8 @@ function FormularioContacto() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const sanitizedValue = name === 'telefono' ? value.replace(/\D/g, '') : value;
+    setFormData((prev) => ({ ...prev, [name]: sanitizedValue }));
     setErrores((prev) => ({ ...prev, [name]: '' }));
   };
 
@@ -93,8 +99,10 @@ function FormularioContacto() {
               name="apellido"
               value={formData.apellido}
               onChange={handleChange}
-              placeholder="Ej: Pérez"
+              isInvalid={!!errores.apellido}
+              placeholder="Ej: Perez"
             />
+            <Form.Control.Feedback type="invalid">{errores.apellido}</Form.Control.Feedback>
           </Form.Group>
         </Col>
       </Row>
@@ -118,11 +126,14 @@ function FormularioContacto() {
           <Form.Group className="mb-3">
             <Form.Label>Teléfono *</Form.Label>
             <Form.Control
+              type="tel"
+              inputMode="numeric"
+              pattern="[0-9]*"
               name="telefono"
               value={formData.telefono}
               onChange={handleChange}
               isInvalid={!!errores.telefono}
-              placeholder="Ej: 11 1234-5678"
+              placeholder="Ej: 1112345678"
             />
             <Form.Control.Feedback type="invalid">{errores.telefono}</Form.Control.Feedback>
           </Form.Group>

@@ -1,4 +1,4 @@
-import { resolveProductImages } from '../utils/productImages.js';
+import { IMAGE_PLACEHOLDER, resolveImageUrls } from '../utils/productImages.js';
 
 export const categories = [
   'Todas',
@@ -16,6 +16,7 @@ export const categories = [
 const baseProducts = [
   {
     id: 1,
+    images: ['product-1-1.png', 'product-1-2.png'],
     name: 'AMD Ryzen 7 7800X3D',
     category: 'Procesadores',
     price: 589000,
@@ -36,6 +37,7 @@ const baseProducts = [
   },
   {
     id: 2,
+    images: ['product-2-1.png', 'product-2-2.png'],
     name: 'Intel Core i7-14700K',
     category: 'Procesadores',
     price: 545000,
@@ -56,6 +58,7 @@ const baseProducts = [
   },
   {
     id: 3,
+    images: ['product-3-1.png'],
     name: 'NVIDIA GeForce RTX 4070 Super',
     category: 'Placas de video',
     price: 899000,
@@ -76,6 +79,7 @@ const baseProducts = [
   },
   {
     id: 4,
+    images: ['product-4-1.png'],
     name: 'AMD Radeon RX 7800 XT',
     category: 'Placas de video',
     price: 749000,
@@ -96,6 +100,7 @@ const baseProducts = [
   },
   {
     id: 5,
+    images: ['product-5-1.png'],
     name: 'Kingston Fury Beast 32GB DDR5',
     category: 'Memorias RAM',
     price: 185000,
@@ -116,6 +121,7 @@ const baseProducts = [
   },
   {
     id: 6,
+    images: ['product-6-1.png'],
     name: 'Corsair Vengeance LPX 16GB DDR4',
     category: 'Memorias RAM',
     price: 72000,
@@ -136,6 +142,7 @@ const baseProducts = [
   },
   {
     id: 7,
+    images: ['product-7-1.png', 'product-7-2.png'],
     name: 'Samsung 990 Pro 1TB NVMe',
     category: 'Almacenamiento',
     price: 165000,
@@ -156,6 +163,7 @@ const baseProducts = [
   },
   {
     id: 8,
+    images: ['product-8-1.png'],
     name: 'WD Black SN850X 2TB',
     category: 'Almacenamiento',
     price: 298000,
@@ -176,6 +184,7 @@ const baseProducts = [
   },
   {
     id: 9,
+    images: ['product-9-1.png', 'product-9-2.png', 'product-9-3.png', 'product-9-4.png'],
     name: 'Logitech G Pro X Superlight 2',
     category: 'Periféricos',
     price: 189000,
@@ -196,6 +205,7 @@ const baseProducts = [
   },
   {
     id: 10,
+    images: ['product-10-1.png', 'product-10-2.png', 'product-10-3.png'],
     name: 'Razer BlackWidow V4',
     category: 'Periféricos',
     price: 215000,
@@ -216,6 +226,7 @@ const baseProducts = [
   },
   {
     id: 11,
+    images: ['product-11-1.png'],
     name: 'LG UltraGear 27" 1440p 165Hz',
     category: 'Monitores',
     price: 425000,
@@ -236,6 +247,7 @@ const baseProducts = [
   },
   {
     id: 12,
+    images: ['product-12-1.png'],
     name: 'ASUS ROG Swift 32" 4K 144Hz',
     category: 'Monitores',
     price: 1150000,
@@ -256,6 +268,7 @@ const baseProducts = [
   },
   {
     id: 13,
+    images: ['product-13-1.png'],
     name: 'Corsair RM850x 850W 80+ Gold',
     category: 'Fuentes',
     price: 198000,
@@ -276,6 +289,7 @@ const baseProducts = [
   },
   {
     id: 14,
+    images: ['product-14-1.png'],
     name: 'NZXT H7 Flow RGB',
     category: 'Gabinetes',
     price: 175000,
@@ -296,6 +310,7 @@ const baseProducts = [
   },
   {
     id: 15,
+    images: ['product-15-1.png', 'product-15-2.png'],
     name: 'Cooler Master Hyper 212 RGB',
     category: 'Refrigeración',
     price: 68000,
@@ -317,12 +332,12 @@ const baseProducts = [
 ];
 
 export const products = baseProducts.map((product) => {
-  const images = resolveProductImages(product.id);
+  const urls = resolveImageUrls(product.images);
 
   return {
     ...product,
-    images,
-    image: images[0],
+    images: urls,
+    image: urls[0],
   };
 });
 
@@ -335,3 +350,5 @@ export const formatPrice = (price) =>
 
 export const getProductById = (id) =>
   products.find((product) => product.id === Number(id));
+
+export const getProductImage = (id) => getProductById(id)?.image ?? IMAGE_PLACEHOLDER;

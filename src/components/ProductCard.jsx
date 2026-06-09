@@ -4,10 +4,13 @@ import { Alert, Card, Button, Badge } from 'react-bootstrap';
 import { formatPrice } from '../data/products.js';
 import { useCart } from '../context/CartContext.jsx';
 import { DecoratedProductImage } from '../patterns/decorator/ProductDecorators.jsx';
+import FavoriteButton from './FavoriteButton.jsx';
+import { useActionAnimation } from '../hooks/useActionAnimation.js';
 
 function ProductCard({ product }) {
   const { cart, addToCart } = useCart();
   const [feedback, setFeedback] = useState(null);
+  const { active: cartJustAdded, trigger: triggerCartAdded } = useActionAnimation(1000);
   const cartItem = cart.find((item) => item.id === product.id);
   const outOfStock = product.stock <= 0;
   const maxStockReached = cartItem && cartItem.quantity >= product.stock;
@@ -23,7 +26,7 @@ function ProductCard({ product }) {
     const result = addToCart(product);
 
     if (result.ok) {
-      setFeedback({ variant: 'success', text: 'Agregado al carrito correctamente.' });
+      triggerCartAdded();
       return;
     }
 
@@ -36,11 +39,10 @@ function ProductCard({ product }) {
     <Card className="product-card h-100">
       <DecoratedProductImage product={product}>
         <Card.Img variant="top" src={product.image} alt={product.name} />
+        <FavoriteButton productId={product.id} />
       </DecoratedProductImage>
       <Card.Body>
-        <Badge bg="dark" className="mb-2 text-secondary border border-secondary">
-          {product.category}
-        </Badge>
+        <Badge className="mb-2 badge-categoria">{product.category}</Badge>
         <Card.Title className="h6">{product.name}</Card.Title>
         <Card.Text className="text-secondary small">{product.description}</Card.Text>
         <p className="price-tag mb-2">{formatPrice(product.price)}</p>
@@ -73,11 +75,17 @@ function ProductCard({ product }) {
           <Button
             variant="accent"
             size="sm"
-            className="flex-grow-1"
+            className={`flex-grow-1 ${cartJustAdded ? 'cart-btn-just-added' : ''}`}
             disabled={buttonDisabled}
             onClick={handleAdd}
           >
-            {outOfStock ? 'Sin stock' : maxStockReached ? 'Sin stock' : 'Agregar'}
+            {cartJustAdded
+              ? '✓ Agregado'
+              : outOfStock
+                ? 'Sin stock'
+                : maxStockReached
+                  ? 'Sin stock'
+                  : 'Agregar'}
           </Button>
         </div>
       </Card.Body>

@@ -39,9 +39,9 @@ function ShareButtons({ product }) {
           href={getTwitterShareUrl(product)}
           target="_blank"
           rel="noopener noreferrer"
-          variant="outline-light"
+          variant="outline-secondary"
           size="sm"
-          className="share-btn"
+          className="share-btn share-btn-x"
         >
           X
         </Button>

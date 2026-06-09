@@ -1,6 +1,18 @@
 <!doctype html>
 <html lang="es">
   <head>
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('coronados-theme');
+          if (!theme && window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+          if (!theme) theme = 'dark';
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

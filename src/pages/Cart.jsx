@@ -1,36 +1,79 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Button, Modal } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 import CartItem from '../components/CartItem.jsx';
-import FormularioCompra from '../components/FormularioCompra.jsx';
+import ResumenCompra from '../components/ResumenCompra.jsx';
 import { useCart } from '../context/CartContext.jsx';
 import { formatPrice } from '../data/products.js';
+import { BULK_DISCOUNT_THRESHOLD } from '../patterns/strategy/discountStrategies.js';
+import { useCoupon } from '../hooks/useCoupon.js';
 
 function Carrito() {
   const {
     cart,
     updateQuantity,
     removeFromCart,
-    clearCart,
     totalItems,
     totalAmount,
   } = useCart();
-  const [showModal, setShowModal] = useState(false);
-  const [purchaseData, setPurchaseData] = useState(null);
+
+  const {
+    couponInput,
+    setCouponInput,
+    appliedCoupon,
+    pricing,
+    couponFeedback,
+    handleApplyCoupon,
+  } = useCoupon(totalAmount);
 
   const isCartEmpty = cart.length === 0;
 
-  const handleConfirmPurchase = (formData) => {
-    setPurchaseData(formData);
-    setShowModal(true);
-    clearCart();
-  };
-
-  const orderNumber = `CTH-${Date.now().toString().slice(-8)}`;
+  const bulkDiscountActive = pricing.appliedDiscounts.some((discount) => discount.id === 'bulk');
+  const bulkDiscountAmount =
+    pricing.appliedDiscounts.find((discount) => discount.id === 'bulk')?.amount ?? 0;
+  const amountToBulkDiscount = Math.max(0, BULK_DISCOUNT_THRESHOLD + 1 - totalAmount);
+  const bulkProgress = Math.min(100, (totalAmount / (BULK_DISCOUNT_THRESHOLD + 1)) * 100);
 
   return (
     <Container className="py-5">
       <h1 className="h2 page-title mb-4">Carrito de compras</h1>
+
+      <div className={`cart-discount-banner ${bulkDiscountActive ? 'is-active' : ''}`}>
+        <div className="cart-discount-banner-badge">15% OFF</div>
+        <div className="cart-discount-banner-body">
+          <p className="cart-discount-banner-title">Descuento automático en compras grandes</p>
+          <p className="cart-discount-banner-text">
+            Compras superiores a {formatPrice(BULK_DISCOUNT_THRESHOLD)} obtienen un 15% de descuento
+            automático. Se acumula con cupones válidos.
+          </p>
+          {!isCartEmpty && !bulkDiscountActive && (
+            <>
+              <div
+                className="cart-discount-banner-progress"
+                role="progressbar"
+                aria-valuenow={Math.round(bulkProgress)}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label="Progreso hacia el descuento del 15%"
+              >
+                <div
+                  className="cart-discount-banner-progress-bar"
+                  style={{ width: `${bulkProgress}%` }}
+                />
+              </div>
+              <p className="cart-discount-banner-text mt-2 mb-0">
+                Te faltan <strong className="text-accent">{formatPrice(amountToBulkDiscount)}</strong>{' '}
+                para activarlo.
+              </p>
+            </>
+          )}
+        </div>
+        {!isCartEmpty && bulkDiscountActive && (
+          <div className="cart-discount-banner-meta">
+            <span className="text-success">¡Activado!</span>
+            <strong>− {formatPrice(bulkDiscountAmount)}</strong>
+          </div>
+        )}
+      </div>
 
       {isCartEmpty ? (
         <div className="empty-state bg-card rounded-4">
@@ -57,63 +100,31 @@ function Carrito() {
           </div>
 
           <div className="col-lg-4">
-            <div className="cart-summary sticky-lg-top" style={{ top: 90 }}>
-              <h2 className="h6 mb-3">Resumen del pedido</h2>
-              <div className="d-flex justify-content-between mb-2 text-secondary">
-                <span>Productos</span>
-                <span>{totalItems}</span>
-              </div>
-              <div className="d-flex justify-content-between mb-3">
-                <span className="fw-semibold">Total</span>
-                <span className="price-tag">{formatPrice(totalAmount)}</span>
-              </div>
-              <hr className="border-secondary" />
-              <h3 className="h6 mb-3">Finalizar compra</h3>
-              <FormularioCompra carritoVacio={false} onConfirmar={handleConfirmPurchase} />
+            <div className="sticky-lg-top" style={{ top: 90 }}>
+              <ResumenCompra
+                totalItems={totalItems}
+                pricing={pricing}
+                showCoupon
+                couponInput={couponInput}
+                onCouponInputChange={(e) => setCouponInput(e.target.value)}
+                onApplyCoupon={handleApplyCoupon}
+                couponFeedback={couponFeedback}
+              >
+                <Button
+                  as={Link}
+                  to="/carrito/finalizar"
+                  state={{ appliedCoupon }}
+                  variant="accent"
+                  size="lg"
+                  className="w-100"
+                >
+                  Comprar
+                </Button>
+              </ResumenCompra>
             </div>
           </div>
         </div>
       )}
-
-      <Modal
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        centered
-        className="modal-compra-confirmada"
-      >
-        <Modal.Header closeButton className="modal-compra-header border-0">
-          <Modal.Title>Pedido confirmado</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="modal-compra-body">
-          <div className="modal-compra-icon mb-3">✓</div>
-          <h3 className="h5 mb-2">¡Gracias por tu compra!</h3>
-          <p className="mb-2">
-            {purchaseData?.nombre
-              ? `${purchaseData.nombre}, tu pedido fue registrado correctamente.`
-              : 'Tu pedido fue registrado correctamente.'}
-          </p>
-          <p className="text-secondary small mb-2">
-            Número de pedido: <strong className="text-accent">{orderNumber}</strong>
-          </p>
-          <p className="text-secondary small mb-0">
-            Te enviaremos un email a <strong>{purchaseData?.email || 'tu correo'}</strong> con el
-            detalle del envío y el seguimiento del pedido.
-          </p>
-        </Modal.Body>
-        <Modal.Footer className="modal-compra-footer border-0">
-          <Button variant="accent" onClick={() => setShowModal(false)}>
-            Entendido
-          </Button>
-          <Button
-            as={Link}
-            to="/productos"
-            variant="outline-accent"
-            onClick={() => setShowModal(false)}
-          >
-            Seguir comprando
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </Container>
   );
 }

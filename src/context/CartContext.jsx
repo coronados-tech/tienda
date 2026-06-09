@@ -1,6 +1,5 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import { getProductById } from '../data/products.js';
-import { resolveProductImage } from '../utils/productImages.js';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { getProductById, getProductImage } from '../data/products.js';
 
 const CartContext = createContext(null);
 
@@ -33,7 +32,7 @@ const normalizeCartItem = (item) => {
   return {
     ...migrated,
     stock,
-    image: resolveProductImage(migrated.id),
+    image: getProductImage(migrated.id),
   };
 };
 
@@ -66,7 +65,7 @@ export function CartProvider({ children }) {
                 ...item,
                 quantity: item.quantity + 1,
                 stock: product.stock,
-                image: resolveProductImage(product.id),
+                image: product.image ?? getProductImage(product.id),
               }
             : item
         );
@@ -77,7 +76,7 @@ export function CartProvider({ children }) {
         {
           ...product,
           quantity: 1,
-          image: resolveProductImage(product.id),
+          image: product.image ?? getProductImage(product.id),
         },
       ];
     });
@@ -105,7 +104,9 @@ export function CartProvider({ children }) {
     setCart((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const clearCart = () => setCart([]);
+  const clearCart = useCallback(() => {
+    setCart((prev) => (prev.length === 0 ? prev : []));
+  }, []);
 
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 

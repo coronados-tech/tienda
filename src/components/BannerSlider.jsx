@@ -1,9 +1,9 @@
 import { Carousel, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { categoryToSlug } from '../utils/categories.js';
-import gpuBanner from '../assets/fotosProductos/NVIDIA GeForce RTX 4070 Super.png';
-import storageBanner from '../assets/fotosHome/Samsung 990 Pro 1TB NVMe.png';
-import monitorBanner from '../assets/fotosHome/ASUS ROG Swift 32 4K 144Hz.png';
+import gpuBanner from '../assets/fotosProductos/product-3-1.png';
+import storageBanner from '../assets/fotosProductos/product-7-1.png';
+import monitorBanner from '../assets/fotosProductos/product-12-1.png';
 
 const slides = [
   {

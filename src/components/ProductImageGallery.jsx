@@ -67,7 +67,7 @@ function ProductImageGallery({ images, alt }) {
               </button>
             ))}
           </div>
-          <p className="product-gallery-counter text-secondary small text-center mb-0 mt-2">
+          <p className="text-secondary small text-center mb-0 mt-2">
             {safeIndex + 1} / {gallery.length}
           </p>
         </>

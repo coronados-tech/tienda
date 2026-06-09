@@ -7,7 +7,7 @@ function Footer() {
       <Container>
         <Row className="align-items-center">
           <Col md={6} className="text-center text-md-start mb-3 mb-md-0">
-            <span className="brand-mono fw-bold text-white">Coronados Tech-Hardware</span>
+            <span className="brand-mono fw-bold footer-brand">Coronados Tech-Hardware</span>
             <p className="mb-0 small mt-1">
               Componentes de PC para gamers, creadores y entusiastas del hardware.
             </p>

@@ -2,35 +2,94 @@
 
 Tienda online de componentes de PC desarrollada como Trabajo Práctico de **Construcción de Interfaces de Usuario (CIU)**.
 
+**Estado:** proyecto completado · **Deploy:** [coronados.vercel.app](https://coronados.vercel.app/)
+
 ## Descripción
 
-**Coronados Tech-Hardware** es una aplicación web que simula una tienda especializada en hardware de computadoras. Los usuarios pueden explorar un catálogo de procesadores, placas de video, memorias RAM, almacenamiento, periféricos y más; filtrar y buscar productos; ver el detalle de cada componente; armar un carrito de compras y completar una compra simulada mediante un formulario controlado.
+**Coronados Tech-Hardware** es una SPA que simula una tienda especializada en hardware de computadoras. Los usuarios pueden explorar un catálogo de componentes, filtrar y buscar productos, ver el detalle de cada uno, marcar favoritos, armar un carrito con descuentos y completar una compra simulada con checkout y confirmación dedicados.
 
 ## Tecnologías utilizadas
 
-- **React** (componentes funcionales + hooks)
-- **React Router DOM** (navegación y rutas dinámicas)
-- **React Bootstrap** + **Bootstrap 5** (diseño responsive)
-- **Vite** (bundler y entorno de desarrollo)
-- **localStorage** (persistencia del carrito — extra opcional)
+| Tecnología | Uso |
+| --- | --- |
+| **React 19** | Componentes funcionales + hooks |
+| **React Router DOM 7** | Navegación y rutas dinámicas |
+| **React Bootstrap** + **Bootstrap 5** | Layout y diseño responsive |
+| **Vite 8** | Bundler y entorno de desarrollo |
+| **localStorage** | Persistencia del carrito, favoritos y tema |
 
 ## Funcionalidades implementadas
 
+### Catálogo y productos
+
 - Página de inicio con identidad visual, banner slider y productos destacados
-- Catálogo con 15 productos de hardware (array de objetos)
-- Detalle de producto con rutas dinámicas (`/producto/:id`)
-- Carrito con cantidades, subtotales, total y confirmación simulada (modal)
+- Catálogo con **15 productos** de hardware (array de objetos) en **9 categorías**
+- Rutas por categoría (`/productos/categoria/:categoriaSlug`)
+- Detalle de producto con galería de imágenes, zoom, breadcrumbs y características técnicas
 - Búsqueda por nombre, filtro por categoría, filtro por precio máximo, orden por precio y filtro de stock
-- Formulario controlado con validaciones
-- Página Nosotros (extra opcional)
-- Etiquetas: Nuevo, Oferta, Más vendido (extra opcional)
+- Etiquetas visuales: **Nuevo**, **Oferta**, **Más vendido**
+- Compartir producto (WhatsApp, X/Twitter, copiar enlace)
+
+### Carrito y compra
+
+- Carrito con cantidades, subtotales, control de stock y persistencia en `localStorage`
+- Descuento automático del **15%** en compras mayores a **$300.000** (con barra de progreso)
+- Cupón de descuento (**`NEW`** → 10% adicional, acumulable con el descuento por volumen)
+- Checkout en página dedicada (`/carrito/finalizar`) con formulario de envío validado
+- Confirmación de compra con código de pedido, resumen y datos del cliente (`/carrito/confirmacion`)
+
+### Extras
+
+- **Favoritos** con persistencia en `localStorage` (`/favoritos`)
+- **Modo claro / oscuro** con preferencia guardada y detección del sistema
+- Página **Nosotros** con integrantes del grupo
+- Página **Contacto** con formulario validado y datos de la sucursal
+- Animaciones de feedback al agregar al carrito o marcar favoritos
+
+## Rutas principales
+
+| Ruta | Descripción |
+| --- | --- |
+| `/` | Inicio |
+| `/productos` | Catálogo completo |
+| `/productos/categoria/:categoriaSlug` | Catálogo filtrado por categoría |
+| `/producto/:id` | Detalle de producto |
+| `/carrito` | Carrito de compras |
+| `/carrito/finalizar` | Checkout (formulario + resumen) |
+| `/carrito/confirmacion` | Confirmación de compra |
+| `/favoritos` | Productos favoritos |
+| `/nosotros` | Sobre el equipo |
+| `/contacto` | Formulario de contacto |
+
+## Patrones de diseño
+
+| Patrón | Dónde se aplica |
+| --- | --- |
+| **Strategy** | Filtros y ordenamiento del catálogo (`src/patterns/strategy/productFilters.js`) y reglas de descuento del carrito (`src/patterns/strategy/discountStrategies.js`) |
+| **Composite** | Agrupación de filtros aplicados en conjunto (`src/patterns/composite/`) |
+| **Decorator** | Etiquetas visuales en tarjetas de producto — Nuevo, Oferta, sin stock (`src/patterns/decorator/`) |
+| **Template Method** | Flujo de validación del formulario de compra (`src/patterns/templateMethod/validacionCompra.js`) |
+| **Context API** | Estado global del carrito, favoritos y tema (`src/context/`) |
+
+## Estructura del proyecto
+
+```
+src/
+├── components/     # UI reutilizable (Navbar, ProductCard, FormularioCompra, ResumenCompra, etc.)
+├── context/        # CartContext, FavoritesContext, ThemeContext
+├── data/           # products.js, integrantes.js
+├── hooks/          # useCoupon, useActionAnimation, useBumpOnIncrease
+├── pages/          # Vistas por ruta (Home, Products, Cart, Checkout, PurchaseConfirmation, etc.)
+├── patterns/       # Strategy, Composite, Decorator, Template Method
+└── utils/          # Imágenes, categorías, etiquetas, compartir producto
+```
 
 ## Instalación y ejecución
 
 ```bash
 # Clonar el repositorio
 git clone <url-del-repo>
-cd coronados-tech-hardware
+cd tienda
 
 # Instalar dependencias
 npm install
@@ -47,50 +106,18 @@ npm run preview
 
 La app estará disponible en `http://localhost:5173`.
 
-## Estructura del proyecto
-
-```
-src/
-├── components/
-│   ├── Navbar.jsx
-│   ├── Footer.jsx
-│   ├── ProductoCard.jsx
-│   ├── CarritoItem.jsx
-│   ├── FormularioCompra.jsx
-│   └── BannerSlider.jsx
-├── pages/
-│   ├── Inicio.jsx
-│   ├── Productos.jsx
-│   ├── DetalleProducto.jsx
-│   ├── Carrito.jsx
-│   ├── Contacto.jsx
-│   └── Nosotros.jsx
-├── context/
-│   └── CarritoContext.jsx
-├── data/
-│   └── productos.js
-├── App.jsx
-└── main.jsx
-```
-
 ## Integrantes del grupo
 
-| Nombre          | Apellido           |
-| --------------- | ------------------ |
-| Malena Celeste  | Fernandez Mansilla |
-| Rafael Alberto  | Barberi Salcedo    |
-| Micaela Natalia | Signorello         |
-| Carla Andrea    | Perez              |
+| Nombre          | Apellido           | DNI         |
+| --------------- | ------------------ | ----------- |
+| Malena Celeste  | Fernandez Mansilla | 34.101.003  |
+| Rafael Alberto  | Barberi Salcedo    | 95.151.120  |
+| Micaela Natalia | Signorello         | 38.624.940  |
+| Carla Andrea    | Perez              | 34.259.069  |
 
-## Entrega
+## Deploy
 
-- Repositorio público en GitHub
-- Enviar link a: **\*\*\***
-- Incluir datos de los integrantes en el mail
-
-## Deploy (opcional)
-
-El proyecto puede desplegarse en **Vercel**, **Netlify** o **GitHub Pages**.
+Producción: **https://coronados.vercel.app/**
 
 ---
 

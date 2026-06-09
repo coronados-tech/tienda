@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Form, Button, Alert, Row, Col } from 'react-bootstrap';
+import { Form, Button, Row, Col } from 'react-bootstrap';
 import { ejecutarValidacionCompra } from '../patterns/templateMethod/validacionCompra.js';
 
 const estadoInicial = {
@@ -12,16 +12,12 @@ const estadoInicial = {
   mensaje: '',
 };
 
-function FormularioCompra({ carritoVacio, onConfirmar }) {
+function FormularioCompra({ onConfirmar }) {
   const [formData, setFormData] = useState(estadoInicial);
   const [errores, setErrores] = useState({});
-  const [enviado, setEnviado] = useState(false);
-  const [nombreConfirmado, setNombreConfirmado] = useState('');
 
   const validar = () => {
-    const { esValido, errores: nuevosErrores } = ejecutarValidacionCompra(formData, {
-      carritoVacio,
-    });
+    const { esValido, errores: nuevosErrores } = ejecutarValidacionCompra(formData);
     setErrores(nuevosErrores);
     return esValido;
   };
@@ -30,38 +26,18 @@ function FormularioCompra({ carritoVacio, onConfirmar }) {
     e.preventDefault();
     if (!validar()) return;
 
-    setNombreConfirmado(formData.nombre);
-    setEnviado(true);
     onConfirmar?.(formData);
-    setFormData(estadoInicial);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const sanitizedValue = name === 'telefono' ? value.replace(/\D/g, '') : value;
+    setFormData((prev) => ({ ...prev, [name]: sanitizedValue }));
     setErrores((prev) => ({ ...prev, [name]: '' }));
   };
 
-  if (enviado) {
-    return (
-      <Alert variant="success" className="border-0">
-        <Alert.Heading>¡Compra confirmada!</Alert.Heading>
-        <p className="mb-0">
-          Gracias {nombreConfirmado}. Recibirás un email de confirmación con
-          los detalles del pedido (simulado).
-        </p>
-      </Alert>
-    );
-  }
-
   return (
     <Form onSubmit={handleSubmit} noValidate>
-      {errores.carrito && (
-        <Alert variant="warning" className="border-0">
-          {errores.carrito}. Agregá productos antes de finalizar la compra.
-        </Alert>
-      )}
-
       <Row>
         <Col md={6}>
           <Form.Group className="mb-3">
@@ -84,7 +60,7 @@ function FormularioCompra({ carritoVacio, onConfirmar }) {
               value={formData.apellido}
               onChange={handleChange}
               isInvalid={!!errores.apellido}
-              placeholder="Ej: Pérez"
+              placeholder="Ej: Perez"
             />
             <Form.Control.Feedback type="invalid">{errores.apellido}</Form.Control.Feedback>
           </Form.Group>
@@ -110,11 +86,14 @@ function FormularioCompra({ carritoVacio, onConfirmar }) {
           <Form.Group className="mb-3">
             <Form.Label>Teléfono *</Form.Label>
             <Form.Control
+              type="tel"
+              inputMode="numeric"
+              pattern="[0-9]*"
               name="telefono"
               value={formData.telefono}
               onChange={handleChange}
               isInvalid={!!errores.telefono}
-              placeholder="Ej: 11 1234-5678"
+              placeholder="Ej: 1112345678"
             />
             <Form.Control.Feedback type="invalid">{errores.telefono}</Form.Control.Feedback>
           </Form.Group>
@@ -154,7 +133,7 @@ function FormularioCompra({ carritoVacio, onConfirmar }) {
         />
       </Form.Group>
 
-      <Button type="submit" variant="accent" size="lg" disabled={carritoVacio}>
+      <Button type="submit" variant="accent" size="lg">
         Confirmar compra
       </Button>
     </Form>

@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Button, InputGroup, Form } from 'react-bootstrap';
-import { formatPrice } from '../data/products.js';
-import { resolveProductImage } from '../utils/productImages.js';
+import { formatPrice, getProductImage } from '../data/products.js';
 
 function CartItem({ item, onUpdate, onRemove }) {
   const subtotal = item.price * item.quantity;
@@ -12,7 +11,7 @@ function CartItem({ item, onUpdate, onRemove }) {
     <div className="d-flex flex-column flex-md-row align-items-md-center gap-3 py-3 border-bottom border-secondary">
       <Link to={`/producto/${item.id}`}>
         <img
-          src={resolveProductImage(item.id)}
+          src={item.image ?? getProductImage(item.id)}
           alt={item.name}
           className="rounded cart-item-image"
         />
