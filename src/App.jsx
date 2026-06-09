@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 import NavbarCoronados from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import Inicio from "./pages/Home.jsx";
@@ -11,6 +12,7 @@ import Carrito from './pages/Cart.jsx';
 function App() {
   return (
     <div className="app-layout">
+      <ScrollToTop />
       <NavbarCoronados />
       <main>
         <Routes>
